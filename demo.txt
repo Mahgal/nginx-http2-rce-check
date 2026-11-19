@@ -1,0 +1,23 @@
+[demo 1/2] vulnerable fixture — nginx 1.31.8 with HTTP/2 on
+nginx: 1.31.8 (fixture)
+HTTP/2: ENABLED in the scanned config
+Verdict: VULNERABLE
+  CVE-2026-123007: AFFECTED — nginx 1.31.8 is in the affected range (first affected 1.9.5; fixed in 1.30.7 (stable) / 1.31.9 (mainline))
+  CVE-2026-123633: AFFECTED — nginx 1.31.8 is in the affected range (first affected 1.19.7; fixed in 1.30.7 (stable) / 1.31.9 (mainline))
+  config: 1 listen directive(s) with the http2 parameter
+  HTTP/2 is on and the version is affected — pre-auth RCE in the HTTP/2 handler is reachable.
+  Fix: upgrade to 1.30.7 (stable) / 1.31.9 (mainline).
+  Mitigation until patched: `http2 off;` (nginx 1.25.1+) and remove `http2` from every listen directive, then test and reload — and confirm old workers have exited.
+
+[demo 2/2] patched fixture — nginx 1.30.7 with HTTP/2 on
+nginx: 1.30.7 (fixture)
+HTTP/2: ENABLED in the scanned config
+Verdict: PATCHED
+  CVE-2026-123007: PATCHED — nginx 1.30.7 is at or above a fixed release (1.30.7 (stable) / 1.31.9 (mainline))
+  CVE-2026-123633: PATCHED — nginx 1.30.7 is at or above a fixed release (1.30.7 (stable) / 1.31.9 (mainline))
+  config: 1 listen directive(s) with the http2 parameter
+  Fixed build — both HTTP/2 CVEs are closed in this release.
+  Restart nginx so the fixed binary is the one running (a reload is not enough if the old binary is still loaded).
+
+Demo uses labelled fixtures only — not this machine.
+Run without --demo to check this machine.
